@@ -54,3 +54,63 @@ export const VideoPlayer = (props) => {
 };
 
 export default VideoPlayer;
+
+
+// new code
+
+// import React, { useRef, useEffect } from 'react';
+// import { useParams } from 'react-router-dom';
+// import videojs from 'video.js'; // Assuming you are using video.js for the video player
+
+// const VideoPlayer = () => {
+//   // const { lessonId } = useParams(); // Get lessonId from URL params
+//   const lessonId  = "0f97e39c-2689-46f6-bd4c-98887f96e59a"; // Get lessonId from URL params
+//   const playerRef = useRef(null);
+
+//   // You can map lessonId to the corresponding video source
+//   // const videoSourceMap = {
+//   //   '2e3a3b15-1337-4c66-807b-a44f9b44550c': 'http://localhost:8000/uploads/courses/2e3a3b15-1337-4c66-807b-a44f9b44550c/index.m3u8',
+//   //   // Add other lessonId mappings if necessary
+//   // };
+
+//   const videoPlayerOptions = {
+//     controls: true,
+//     responsive: true,
+//     fluid: true,
+//     sources: [
+//       {
+//         src: videoSourceMap[lessonId], // Use lessonId to fetch the correct video
+//         type: 'application/x-mpegURL'
+//       }
+//     ]
+//   };
+
+//   useEffect(() => {
+//     if (playerRef.current) return; // Prevent duplicate initialization
+//     const videoElement = document.querySelector('.video-js');
+
+//     // Initialize video.js player
+//     const player = videojs(videoElement, videoPlayerOptions, () => {
+//       console.log('Player is ready');
+//     });
+
+//     // Save player instance
+//     playerRef.current = player;
+
+//     return () => {
+//       if (playerRef.current) {
+//         playerRef.current.dispose(); // Clean up the player on component unmount
+//         playerRef.current = null;
+//       }
+//     };
+//   }, [lessonId]); // Re-run if lessonId changes
+
+//   return (
+//     <div>
+//       <h2>Playing lesson: {lessonId}</h2>
+//       <video className="video-js vjs-default-skin" controls preload="auto" />
+//     </div>
+//   );
+// };
+
+// export default VideoPlayer;

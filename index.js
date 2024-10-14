@@ -48,6 +48,8 @@ app.get('/', function(req, res){
   res.json({message: "Hello chai aur code"})
 })
 
+const videos = {}
+
 app.post("/upload", upload.single('file'), function(req, res){
   const lessonId = uuidv4()
   const videoPath = req.file.path
@@ -73,15 +75,34 @@ app.post("/upload", upload.single('file'), function(req, res){
     console.log(`stderr: ${stderr}`)
     const videoUrl = `http://localhost:8000/uploads/courses/${lessonId}/index.m3u8`;
 
+    // Store video metadata in the in-memory database
+    videos[lessonId] = {
+      videoUrl: videoUrl,
+      lessonId: lessonId,
+      originalFileName: req.file.originalname,
+    };
+
     res.json({
       message: "Video converted to HLS format",
       videoUrl: videoUrl,
-      lessonId: lessonId
+      lessonId: lessonId,
+      videos: videos,
     })
   })
 
 })
 
+app.get("/watch/:lessonId", function (req, res) {
+  const lessonId = req.params.lessonId;
+  const videoUrl = `http://localhost:8000/uploads/courses/${lessonId}/index.m3u8`;
+
+  res.json({
+    message: "Redirecting to video",
+    videoUrl: videoUrl,
+  });
+});
+
 app.listen(8000, function(){
-  console.log("App is listening at port 3000...")
+  console.log("App is listening at port 8000...")
 })
+
